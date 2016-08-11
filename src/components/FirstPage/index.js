@@ -1,5 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Slider } from 'react-mdl';
+
+const getFiltersRow = () => (
+  <tr>
+    {['dt', 'pressure', 'humidity', 'speed', 'clouds'].map(name => (
+      <td>
+        <Slider min={0} max={100} defaultValue={0} />
+      </td>
+    ))}
+  </tr>
+);
 
 const renderRow = (dayWeather, index) => (
   <tr key={index}>
@@ -24,6 +35,7 @@ const renderTable = (data) => (
     </thead>
     <tbody>
       {data.map(renderRow)}
+      {getFiltersRow()}
     </tbody>
   </table>
 );
