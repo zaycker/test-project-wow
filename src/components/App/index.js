@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../actions';
+import { Layout, Header, Footer, Navigation, Content } from 'react-mdl';
+import { Link } from 'react-router';
 
 function mapStateToProps(data) {
   return { data };
@@ -14,16 +16,18 @@ function mapDispatchToProps(dispatch) {
 }
 
 const WeatherApp = (props) => (
-  <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <header className="mdl-layout__header">
-      <div className="mdl-layout__header-row">
-        <span className="mdl-layout-title">Here is the header of website</span>
-      </div>
-    </header>
-    <main className="mdl-layout__content">
-      <div className="page-content">{props.children}</div>
-    </main>
-  </div>
+  <Layout>
+    <Header title="Here is the header of website">
+      <Navigation>
+        <Link to="/">Home</Link>
+        <Link to="/second-page">Second page</Link>
+      </Navigation>
+    </Header>
+    <Content>{props.children}</Content>
+    <Footer>
+      <div>Copyrights</div>
+    </Footer>
+  </Layout>
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeatherApp);

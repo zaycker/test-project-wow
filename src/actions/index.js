@@ -18,3 +18,10 @@ export const loadList = () => async (dispatch) => {
     console.log('something wrong');
   }
 };
+
+export function setFilter(payload) {
+  return {
+    type: types.FILTER_CHANGE,
+    payload
+  };
+}

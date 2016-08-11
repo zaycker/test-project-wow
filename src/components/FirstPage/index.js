@@ -1,50 +1,61 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Slider } from 'react-mdl';
+import { Textfield, DataTable, TableHeader } from 'react-mdl';
+import { setFilter } from '../../actions';
+import filter from '../../helpers/filter';
+import formatDate from '../../helpers/formatDate';
 
-const getFiltersRow = () => (
-  <tr>
-    {['dt', 'pressure', 'humidity', 'speed', 'clouds'].map(name => (
-      <td>
-        <Slider min={0} max={100} defaultValue={0} />
-      </td>
-    ))}
-  </tr>
-);
-
-const renderRow = (dayWeather, index) => (
-  <tr key={index}>
-    <td>{new Date(dayWeather.dt * 1e3).toString()}</td>
-    <td>{dayWeather.pressure}</td>
-    <td>{dayWeather.humidity}</td>
-    <td>{dayWeather.speed}</td>
-    <td>{dayWeather.clouds}</td>
-  </tr>
-);
-
-const renderTable = (data) => (
-  <table className="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
-    <thead>
-    <tr>
-      <th>Date</th>
-      <th>Pressure, hPa</th>
-      <th>Humidity, %</th>
-      <th>Wind speed, meter/sec</th>
-      <th>Cloudiness, %</th>
-    </tr>
-    </thead>
-    <tbody>
-      {data.map(renderRow)}
-      {getFiltersRow()}
-    </tbody>
-  </table>
+/**
+ * TODO: Move columns to constants
+ * @param {Function} setFilter
+ */
+const getFilters = ({ setFilter }) => (
+  [
+    ['pressure', 'Pressure, hPa'],
+    ['humidity', 'Humidity, %'],
+    ['speed', 'Wind speed, meter/sec'],
+    ['clouds', 'Cloudiness, %']
+  ].map(([name, header]) => (
+    name ?
+      <div key={name}>
+        {`${header}: `}
+        <Textfield
+          onChange={(e) => { setFilter({ [`${name}-min`]: e.target.value }) }}
+          pattern="-?[0-9]*(\.[0-9]+)?"
+          error="Input is not a number!"
+          label="From"
+          style={{ width: '50px' }}
+        />
+        {' - '}
+        <Textfield
+          onChange={(e) => { setFilter({ [`${name}-max`]: e.target.value }) }}
+          pattern="-?[0-9]*(\.[0-9]+)?"
+          error="Input is not a number!"
+          label="To"
+          style={{ width: '50px' }}
+        />
+      </div> : null
+  ))
 );
 
 const FirstPage = (props) => (
-  props.list ? renderTable(props.list) : <div>I'm first page</div>
+  props.list ?
+      <div>
+        <DataTable
+          rows={filter(props.list, props.filters)}
+        >
+          <TableHeader name="dt" cellFormatter={dt => formatDate(new Date(dt * 1e3))}>Date</TableHeader>
+          <TableHeader numeric name="pressure">Pressure, hPa</TableHeader>
+          <TableHeader numeric name="humidity">Humidity, %</TableHeader>
+          <TableHeader numeric name="speed">Wind speed, meter/sec</TableHeader>
+          <TableHeader numeric name="clouds">Cloudiness, %</TableHeader>
+        </DataTable>
+        {getFilters({ setFilter: props.setFilter })}
+      </div>
+    : <div>I'm first page</div>
 );
 
 export default connect(
-  state => ({ list: state.list }),
-  {}
+  state => ({ list: state.list, filters: state.filters }),
+  { setFilter: setFilter }
 )(FirstPage);

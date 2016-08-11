@@ -1,7 +1,7 @@
 import 'react-mdl/extra/material.css';
 import 'react-mdl/extra/material.js';
 import React from 'react';
-import { App, FirstPage } from './components';
+import { App, FirstPage, SecondPage } from './components';
 
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -19,6 +19,7 @@ render((
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={FirstPage} />
+        <Route path="second-page" component={SecondPage} />
       </Route>
     </Router>
   </Provider>
