@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default const FirstPage = (props) => (
+export default (props) => (
   <div>I'm first page</div>
 );
