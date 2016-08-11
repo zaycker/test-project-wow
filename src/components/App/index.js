@@ -17,7 +17,7 @@ const WeatherApp = (props) => (
   <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <header className="mdl-layout__header">
       <div className="mdl-layout__header-row">
-        <span className="mdl-layout-title">Here is the header off website</span>
+        <span className="mdl-layout-title">Here is the header of website</span>
       </div>
     </header>
     <main className="mdl-layout__content">
