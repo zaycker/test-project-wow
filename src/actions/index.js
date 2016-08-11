@@ -10,7 +10,7 @@ function listLoaded(list) {
 
 export const loadList = () => async (dispatch, getState) => {
   try {
-    const response = await window.fetch(constants.DATA_URL);
+    const response = await window.fetch(constants.DATA_URL, constants.FETCH_CONFIG);
     const json = await response.json();
 
     dispatch(listLoaded(json));
