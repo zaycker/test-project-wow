@@ -18,7 +18,12 @@ const getFilters = ({ setFilter }) => (
   ].map(([name, header]) => (
     name ?
       <div key={name}>
-        {`${header}: `}
+        <div style={{
+          lineHeight: '67px',
+          display: 'inline-block',
+          verticalAlign: 'top',
+          marginRight: '7px'
+        }}>{`${header}: `}</div>
         <Textfield
           onChange={(e) => { setFilter({ [`${name}-min`]: e.target.value }) }}
           pattern="-?[0-9]*(\.[0-9]+)?"
@@ -26,7 +31,12 @@ const getFilters = ({ setFilter }) => (
           label="From"
           style={{ width: '50px' }}
         />
-        {' - '}
+        <div style={{
+          lineHeight: '67px',
+          display: 'inline-block',
+          verticalAlign: 'top',
+          margin: '0 7px'
+        }}>&mdash;</div>
         <Textfield
           onChange={(e) => { setFilter({ [`${name}-max`]: e.target.value }) }}
           pattern="-?[0-9]*(\.[0-9]+)?"
